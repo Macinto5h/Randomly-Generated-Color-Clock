@@ -11,4 +11,4 @@ function getColor( color ){
 }
 var randColor = randomColor( );
 getColor( randColor );
-document.write(document.body.style.backgroundColor)
+//document.write(document.body.style.backgroundColor)

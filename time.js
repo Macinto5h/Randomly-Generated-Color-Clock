@@ -13,36 +13,43 @@ function drawClockBase( ){
   context.strokeStyle = 'white';
   context.stroke();
 }
-
-function drawHand(context, position, length, width){
+//Length is a ratio of the length of hand compared to clock face radius
+function drawHand(length, width, angle){
   context.beginPath( );
   context.lineWidth = width;
   context.lineCap = "round";
   context.moveTo(centerX, centerY);
-  context.rotate(position);
-  context.lineTo(centerX, centerY - radius );
-  context.stroke( );
-  context.rotate(-position);
+  var handLength = length * radius;
+  var xOffset = Math.cos(degreesToRadians(angle-90))*handLength;
+  var yOffset = Math.sin(degreesToRadians(angle-90))*handLength;
+  context.lineTo(centerX+xOffset,centerY+yOffset);
+  context.stroke();
+}
+//Need this function since trig functions are in radians.
+function degreesToRadians(d){
+  return d * (Math.PI / 180);
 }
 
 function simpleAnalogClock( ){
-
+  context.clearRect(0,0,canvas.width,canvas.height);//Clear canvas
   drawClockBase( );
 
   var now = new Date();
   var hour = now.getHours();
   var minute = now.getMinutes( );
   var second = now.getSeconds( );
+  var millisecond = now.getMilliseconds();
+
+  hour %= 12;
+  var hourAngle = (hour*30)+(minute*0.5)+(second*0.0083);
+  var minuteAngle = (minute*6)+(second*0.1);
+  var secondAngle = second*6;
   //hour stuff
-  hour = hour%12
-  hour = (hour * Math.PI/6) + (minute*Math.PI/360) + (second*Math.PI/(360*60));
-  drawHand(context, hour, radius*0.5, radius*0.03);
+  drawHand(0.6,5,hourAngle);
   //minute stuff
-  minute = (minute*Math.PI/30)+(second*Math.PI/(30*60));
-  drawHand(context, minute, radius*0.5, radius*0.03);
+  drawHand(0.75,3,minuteAngle);
   //second stuff
-  second = (second*Math.PI/30);
-  drawHand(context,second,radius*0.75, radius*0.01);
+  drawHand(0.9,1,secondAngle);
 
 }
 
