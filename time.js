@@ -8,7 +8,9 @@ var centerY = canvas.height / 2;
 function drawClockBase( ){
 
   context.beginPath();
+  context.fillStyle = 'white';
   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+  context.fill();
   context.lineWidth = 5;
   context.strokeStyle = 'white';
   context.stroke();
@@ -23,6 +25,7 @@ function drawHand(length, width, angle){
   var xOffset = Math.cos(degreesToRadians(angle-90))*handLength;
   var yOffset = Math.sin(degreesToRadians(angle-90))*handLength;
   context.lineTo(centerX+xOffset,centerY+yOffset);
+  context.strokeStyle = document.body.style.backgroundColor;
   context.stroke();
 }
 //Need this function since trig functions are in radians.
