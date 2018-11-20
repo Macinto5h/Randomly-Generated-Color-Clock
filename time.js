@@ -4,11 +4,19 @@ var context = canvas.getContext('2d');
 var radius = 200;
 var centerX = canvas.width / 2;
 var centerY = canvas.height / 2;
+var boolStyle = true;
+var button = document.getElementById('styleChangeB');
 //-----------Function Below is in Charge of Base of an analog Clock------------
-function drawClockBase( ){
+function drawClockBase(){
 
   context.beginPath();
+  if(boolStyle == false){
+    context.fillStyle = 'white';
+  }else{
+    context.fillStyle = document.body.style.backgroundColor;
+  }
   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+  context.fill();
   context.lineWidth = 5;
   context.strokeStyle = 'white';
   context.stroke();
@@ -23,6 +31,9 @@ function drawHand(length, width, angle){
   var xOffset = Math.cos(degreesToRadians(angle-90))*handLength;
   var yOffset = Math.sin(degreesToRadians(angle-90))*handLength;
   context.lineTo(centerX+xOffset,centerY+yOffset);
+  if(boolStyle == false){
+    context.strokeStyle = document.body.style.backgroundColor;
+  }
   context.stroke();
 }
 //Need this function since trig functions are in radians.
@@ -30,9 +41,9 @@ function degreesToRadians(d){
   return d * (Math.PI / 180);
 }
 
-function simpleAnalogClock( ){
+function simpleAnalogClock(){
   context.clearRect(0,0,canvas.width,canvas.height);//Clear canvas
-  drawClockBase( );
+  drawClockBase();
 
   var now = new Date();
   var hour = now.getHours();
@@ -53,4 +64,9 @@ function simpleAnalogClock( ){
 
 }
 
-setInterval( simpleAnalogClock, 1000 );
+function changeStyle(){
+    clearInterval()
+    boolStyle = !(boolStyle);
+    setInterval( simpleAnalogClock, 1000 );
+}
+button.onclick = changeStyle();
