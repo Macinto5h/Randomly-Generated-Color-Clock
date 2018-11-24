@@ -69,4 +69,4 @@ function changeStyle(){
     boolStyle = !(boolStyle);
     setInterval( simpleAnalogClock, 1000 );
 }
-button.onclick = changeStyle();
+button.onchange = changeStyle();
